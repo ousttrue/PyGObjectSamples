@@ -1,0 +1,2 @@
+# PyGObjectSamples
+PyGObject samples
