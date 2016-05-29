@@ -3,15 +3,40 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to PyGObjectSample's documentation!
+PyGObject Samples
 ===========================================
+
+Gtk3からPythonBindingが GObject Introspectionにて自動生成されるようになった。 
+Gstreamer-1.0も同様。
+importの仕方が
+
+.. code-block:: python
+
+    import pygtk
+    import pygst
+    pygst.require("0.10")
+
+から
+
+.. code-block:: python
+
+    import gi
+    gi.require_version('Gtk', '3.0')
+    gi.require_version('Gst', '1.0')
+    from gi.repository import Gtk, Gst
+
+というように結構変わった。
+合わせてAPIの構成もいろいろ変わっているのでサンプル集を作ってみる。
+
+Python3.4(Gentoo Linux)で実験。
 
 Contents:
 
 .. toctree::
    :maxdepth: 2
 
-
+   gtk/index
+   gst/index
 
 Indices and tables
 ==================

@@ -1,0 +1,27 @@
+===========================================
+Gtk3のサンプル
+===========================================
+
+* http://python-gtk-3-tutorial.readthedocs.io/en/latest/index.html
+
+SimpleWindow
+============
+
+.. code-block:: python
+
+    import gi
+    gi.require_version('Gtk', '3.0')
+    from gi.repository import Gtk
+
+    win = Gtk.Window()
+    win.connect("delete-event", Gtk.main_quit)
+    win.show_all()
+    Gtk.main()
+
+OpenGL
+============
+
+* https://github.com/aklomp/gtk3-opengl
+
+.. todo:: PyOpenGL
+

@@ -1,0 +1,23 @@
+===========================================
+Gtk3のサンプル
+===========================================
+
+* http://python-gtk-3-tutorial.readthedocs.io/en/latest/index.html
+
+SimpleWindow
+============
+
+.. literalinclude:: simple_window.py
+
+HorizontalBox
+=============
+
+.. literalinclude:: horizontal_box.py
+
+OpenGL
+============
+
+* https://github.com/aklomp/gtk3-opengl
+
+.. todo:: PyOpenGL
+

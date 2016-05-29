@@ -1,0 +1,70 @@
+===========================================
+Gstreamer-1.0のサンプル
+===========================================
+
+Gstreamer-0.10 から Gstreamer-1.0 への以降ガイド
+
+* https://wiki.ubuntu.com/Novacut/GStreamer1.0
+
+SimpleVideo
+===========
+
+::
+
+    $ gst-launch-1.0 videotestsrc ! xvimagesink
+
+上記コマンドラインをpythonにする。
+
+.. todo:: 終了処理
+
+.. literalinclude:: videotest.py
+
+VideoOverlay
+============
+
+Gtk+-3.0
+--------
+
+Gtk+-3.0 + Gstreamer-0.10 のサンプルは見つかるのだが・・・
+
+* http://docs.gstreamer.com/display/GstSDK/Basic+tutorial+5%3A+GUI+toolkit+integration
+*  https://gstreamer.freedesktop.org/data/doc/gstreamer/head/gst-plugins-base-libs/html/gst-plugins-base-libs-gstvideooverlay.html
+
+Gtk+-3.0 + Gstreamer-1.0 のサンプル発見。
+
+* http://palepoli.skr.jp/wp/2013/01/20/python-with-gtk3-and-gst-1-0/
+
+.. literalinclude:: gtk_overlay.py
+
+Cairo
+-----
+* https://gist.github.com/michaeltyson/9302751
+
+OpenGL
+--------
+
+OpenGLのテクスチャに描画する。
+
+
+Webcam
+======
+
+
+Error
+=====
+
+.. code-block:: python
+
+    def on_sync_message(self, bus, message):
+        s=message.get_structure()
+        if not s:
+            return
+        print(s.get_name())
+
+::
+
+    missing-plugin
+.
+playbinでコーデックが見つからない。
+gst-plugins-xxxをインストーする。
+

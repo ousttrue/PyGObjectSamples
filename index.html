@@ -6,9 +6,9 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Welcome to PyGObjectSample’s documentation! &mdash; PyGObjectSample 0.1 ドキュメント</title>
+    <title>PyGObject Samples &mdash; PyGObjectSample 0.1 ドキュメント</title>
     
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,25 +25,63 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
     <link rel="top" title="PyGObjectSample 0.1 ドキュメント" href="#" />
-   
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
+    <link rel="next" title="Gtk3のサンプル" href="gtk/index.html" /> 
   </head>
   <body role="document">
-  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="gtk/index.html" title="Gtk3のサンプル"
+             accesskey="N">次へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">PyGObjectSample 0.1 ドキュメント</a> &raquo;</li> 
+      </ul>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="welcome-to-pygobjectsample-s-documentation">
-<h1>Welcome to PyGObjectSample&#8217;s documentation!<a class="headerlink" href="#welcome-to-pygobjectsample-s-documentation" title="このヘッドラインへのパーマリンク">¶</a></h1>
+  <div class="section" id="pygobject-samples">
+<h1>PyGObject Samples<a class="headerlink" href="#pygobject-samples" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>Gtk3からPythonBindingが GObject Introspectionにて自動生成されるようになった。
+Gstreamer-1.0も同様。
+importの仕方が</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pygtk</span>
+<span class="kn">import</span> <span class="nn">pygst</span>
+<span class="n">pygst</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="s2">&quot;0.10&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>から</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">gi</span>
+<span class="n">gi</span><span class="o">.</span><span class="n">require_version</span><span class="p">(</span><span class="s1">&#39;Gtk&#39;</span><span class="p">,</span> <span class="s1">&#39;3.0&#39;</span><span class="p">)</span>
+<span class="n">gi</span><span class="o">.</span><span class="n">require_version</span><span class="p">(</span><span class="s1">&#39;Gst&#39;</span><span class="p">,</span> <span class="s1">&#39;1.0&#39;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">gi.repository</span> <span class="kn">import</span> <span class="n">Gtk</span><span class="p">,</span> <span class="n">Gst</span>
+</pre></div>
+</div>
+<p>というように結構変わった。
+合わせてAPIの構成もいろいろ変わっているのでサンプル集を作ってみる。</p>
+<p>Python3.4(Gentoo Linux)で実験。</p>
 <p>Contents:</p>
 <div class="toctree-wrapper compound">
-<ul class="simple">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="gtk/index.html">Gtk3のサンプル</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gtk/index.html#simplewindow">SimpleWindow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gtk/index.html#horizontalbox">HorizontalBox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gtk/index.html#opengl">OpenGL</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gst/index.html">Gstreamer-1.0のサンプル</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gst/index.html#simplevideo">SimpleVideo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gst/index.html#videooverlay">VideoOverlay</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gst/index.html#webcam">Webcam</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gst/index.html#error">Error</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -64,16 +102,13 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="#">目次</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Welcome to PyGObjectSample&#8217;s documentation!</a></li>
+<li><a class="reference internal" href="#">PyGObject Samples</a></li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="#">Documentation overview</a><ul>
-  </ul></li>
-</ul>
-</div>
+
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="gtk/index.html"
+                        title="次の章へ">Gtk3のサンプル</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
@@ -95,20 +130,21 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="footer">
-      &copy;2016, ousttrue.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
-      
-      |
-      <a href="_sources/index.txt"
-          rel="nofollow">Page source</a>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="gtk/index.html" title="Gtk3のサンプル"
+             >次へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">PyGObjectSample 0.1 ドキュメント</a> &raquo;</li> 
+      </ul>
     </div>
-
-    
-
-    
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, ousttrue.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
   </body>
 </html>

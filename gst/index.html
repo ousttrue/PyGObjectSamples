@@ -1,0 +1,285 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Gstreamer-1.0のサンプル &mdash; PyGObjectSample 0.1 ドキュメント</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="PyGObjectSample 0.1 ドキュメント" href="../index.html" />
+    <link rel="prev" title="Gtk3のサンプル" href="../gtk/index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../gtk/index.html" title="Gtk3のサンプル"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PyGObjectSample 0.1 ドキュメント</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="gstreamer-1-0">
+<h1>Gstreamer-1.0のサンプル<a class="headerlink" href="#gstreamer-1-0" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>Gstreamer-0.10 から Gstreamer-1.0 への以降ガイド</p>
+<ul class="simple">
+<li><a class="reference external" href="https://wiki.ubuntu.com/Novacut/GStreamer1.0">https://wiki.ubuntu.com/Novacut/GStreamer1.0</a></li>
+</ul>
+<div class="section" id="simplevideo">
+<h2>SimpleVideo<a class="headerlink" href="#simplevideo" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ gst-launch-1.0 videotestsrc ! xvimagesink
+</pre></div>
+</div>
+<p>上記コマンドラインをpythonにする。</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/python3</span>
+<span class="c1"># coding: utf-8</span>
+
+<span class="kn">import</span> <span class="nn">gi</span>
+<span class="n">gi</span><span class="o">.</span><span class="n">require_version</span><span class="p">(</span><span class="s1">&#39;Gst&#39;</span><span class="p">,</span> <span class="s1">&#39;1.0&#39;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">gi.repository</span> <span class="k">import</span> <span class="n">GObject</span><span class="p">,</span> <span class="n">Gst</span>
+
+
+<span class="k">def</span> <span class="nf">create_pipeline</span><span class="p">():</span>
+    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Gst</span><span class="o">.</span><span class="n">Pipeline</span><span class="p">()</span>
+
+    <span class="n">src</span> <span class="o">=</span> <span class="n">Gst</span><span class="o">.</span><span class="n">ElementFactory</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;videotestsrc&#39;</span><span class="p">,</span> <span class="s1">&#39;source&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">src</span> 
+
+    <span class="n">sink</span> <span class="o">=</span> <span class="n">Gst</span><span class="o">.</span><span class="n">ElementFactory</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;xvimagesink&#39;</span><span class="p">,</span> <span class="s1">&#39;sink&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">sink</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">sink</span>
+
+    <span class="n">src</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">sink</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">pipeline</span>
+
+<span class="k">if</span> <span class="n">__name__</span><span class="o">==</span><span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">Gst</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">GObject</span><span class="o">.</span><span class="n">threads_init</span><span class="p">()</span>
+
+    <span class="n">pipeline</span><span class="o">=</span><span class="n">create_pipeline</span><span class="p">()</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">Gst</span><span class="o">.</span><span class="n">State</span><span class="o">.</span><span class="n">PLAYING</span><span class="p">)</span>
+    <span class="n">GObject</span><span class="o">.</span><span class="n">MainLoop</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+</pre></div>
+</div>
+</div>
+<div class="section" id="videooverlay">
+<h2>VideoOverlay<a class="headerlink" href="#videooverlay" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="gtk-3-0">
+<h3>Gtk+-3.0<a class="headerlink" href="#gtk-3-0" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>Gtk+-3.0 + Gstreamer-0.10 のサンプルは見つかるのだが・・・</p>
+<ul class="simple">
+<li><a class="reference external" href="http://docs.gstreamer.com/display/GstSDK/Basic+tutorial+5%3A+GUI+toolkit+integration">http://docs.gstreamer.com/display/GstSDK/Basic+tutorial+5%3A+GUI+toolkit+integration</a></li>
+<li><a class="reference external" href="https://gstreamer.freedesktop.org/data/doc/gstreamer/head/gst-plugins-base-libs/html/gst-plugins-base-libs-gstvideooverlay.html">https://gstreamer.freedesktop.org/data/doc/gstreamer/head/gst-plugins-base-libs/html/gst-plugins-base-libs-gstvideooverlay.html</a></li>
+</ul>
+<p>Gtk+-3.0 + Gstreamer-1.0 のサンプル発見。</p>
+<ul class="simple">
+<li><a class="reference external" href="http://palepoli.skr.jp/wp/2013/01/20/python-with-gtk3-and-gst-1-0/">http://palepoli.skr.jp/wp/2013/01/20/python-with-gtk3-and-gst-1-0/</a></li>
+</ul>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/python3</span>
+<span class="c1"># coding: utf-8</span>
+
+<span class="kn">import</span> <span class="nn">gi</span>
+<span class="n">gi</span><span class="o">.</span><span class="n">require_version</span><span class="p">(</span><span class="s1">&#39;Gtk&#39;</span><span class="p">,</span> <span class="s1">&#39;3.0&#39;</span><span class="p">)</span>
+<span class="n">gi</span><span class="o">.</span><span class="n">require_version</span><span class="p">(</span><span class="s1">&#39;GdkX11&#39;</span><span class="p">,</span> <span class="s1">&#39;3.0&#39;</span><span class="p">)</span> <span class="c1"># required for get_xid</span>
+<span class="n">gi</span><span class="o">.</span><span class="n">require_version</span><span class="p">(</span><span class="s1">&#39;Gst&#39;</span><span class="p">,</span> <span class="s1">&#39;1.0&#39;</span><span class="p">)</span>
+<span class="n">gi</span><span class="o">.</span><span class="n">require_version</span><span class="p">(</span><span class="s1">&#39;GstVideo&#39;</span><span class="p">,</span> <span class="s1">&#39;1.0&#39;</span><span class="p">)</span> <span class="c1"># required for set_window_handle</span>
+<span class="kn">from</span> <span class="nn">gi.repository</span> <span class="k">import</span> <span class="n">Gtk</span><span class="p">,</span> <span class="n">GdkX11</span><span class="p">,</span> <span class="n">Gst</span><span class="p">,</span> <span class="n">GstVideo</span>
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+
+
+<span class="k">class</span> <span class="nc">GtkOverlayVideo</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">get_xid</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_xid</span><span class="o">=</span><span class="n">get_xid</span>
+
+        <span class="c1"># Setup GStreamer </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">player</span> <span class="o">=</span> <span class="n">Gst</span><span class="o">.</span><span class="n">ElementFactory</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s2">&quot;playbin&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">player</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;uri&quot;</span><span class="p">,</span> <span class="s2">&quot;file://&quot;</span><span class="o">+</span><span class="n">path</span><span class="p">)</span>
+
+        <span class="n">bus</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">player</span><span class="o">.</span><span class="n">get_bus</span><span class="p">()</span> 
+        <span class="n">bus</span><span class="o">.</span><span class="n">add_signal_watch</span><span class="p">()</span> 
+        <span class="n">bus</span><span class="o">.</span><span class="n">enable_sync_message_emission</span><span class="p">()</span> 
+        <span class="c1">#used to get messages that GStreamer emits </span>
+        <span class="n">bus</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;message&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_message</span><span class="p">)</span> 
+        <span class="c1">#used for connecting video to your application </span>
+        <span class="n">bus</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;sync-message::element&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_sync_message</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">player</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">Gst</span><span class="o">.</span><span class="n">State</span><span class="o">.</span><span class="n">PLAYING</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">on_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bus</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span> 
+        <span class="k">if</span> <span class="n">message</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">Gst</span><span class="o">.</span><span class="n">MessageType</span><span class="o">.</span><span class="n">EOS</span><span class="p">:</span> 
+            <span class="c1"># End of Stream </span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">player</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">Gst</span><span class="o">.</span><span class="n">Format</span><span class="o">.</span><span class="n">TIME</span><span class="p">,</span> 
+                    <span class="n">Gst</span><span class="o">.</span><span class="n">SeekFlags</span><span class="o">.</span><span class="n">FLUSH</span><span class="p">,</span> 
+                    <span class="n">Gst</span><span class="o">.</span><span class="n">SeekType</span><span class="o">.</span><span class="n">SET</span><span class="p">,</span> <span class="mi">5000000000</span><span class="p">,</span> 
+                    <span class="n">Gst</span><span class="o">.</span><span class="n">SeekType</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span> <span class="mi">6000000000</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">message</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">Gst</span><span class="o">.</span><span class="n">MessageType</span><span class="o">.</span><span class="n">ERROR</span><span class="p">:</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">player</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">Gst</span><span class="o">.</span><span class="n">State</span><span class="o">.</span><span class="n">NULL</span><span class="p">)</span> 
+            <span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">debug</span><span class="p">)</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="n">parse_error</span><span class="p">()</span> 
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error: </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">debug</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">on_sync_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bus</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="n">s</span><span class="o">=</span><span class="n">message</span><span class="o">.</span><span class="n">get_structure</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">s</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">get_name</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="s2">&quot;prepare-window-handle&quot;</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">xid</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_xid</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">xid</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">imagesink</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="n">src</span>
+        <span class="n">imagesink</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;force-aspect-ratio&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">imagesink</span><span class="o">.</span><span class="n">set_window_handle</span><span class="p">(</span><span class="n">xid</span><span class="p">)</span>
+
+
+
+<span class="k">class</span> <span class="nc">VideoWindow</span><span class="p">(</span><span class="n">Gtk</span><span class="o">.</span><span class="n">Window</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;delete-event&quot;</span><span class="p">,</span> <span class="n">Gtk</span><span class="o">.</span><span class="n">main_quit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;realize&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_realize</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">on_realize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xid</span> <span class="o">=</span> <span class="n">sender</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_xid</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get_xid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xid</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">Gst</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="n">window</span><span class="o">=</span><span class="n">VideoWindow</span><span class="p">()</span>
+    <span class="n">video</span><span class="o">=</span><span class="n">GtkOverlayVideo</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">window</span><span class="o">.</span><span class="n">get_xid</span><span class="p">)</span>
+
+    <span class="n">window</span><span class="o">.</span><span class="n">show_all</span><span class="p">()</span>
+    <span class="n">Gtk</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+
+</pre></div>
+</div>
+</div>
+<div class="section" id="cairo">
+<h3>Cairo<a class="headerlink" href="#cairo" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://gist.github.com/michaeltyson/9302751">https://gist.github.com/michaeltyson/9302751</a></li>
+</ul>
+</div>
+<div class="section" id="opengl">
+<h3>OpenGL<a class="headerlink" href="#opengl" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>OpenGLのテクスチャに描画する。</p>
+</div>
+</div>
+<div class="section" id="webcam">
+<h2>Webcam<a class="headerlink" href="#webcam" title="このヘッドラインへのパーマリンク">¶</a></h2>
+</div>
+<div class="section" id="error">
+<h2>Error<a class="headerlink" href="#error" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">on_sync_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bus</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+    <span class="n">s</span><span class="o">=</span><span class="n">message</span><span class="o">.</span><span class="n">get_structure</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">s</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">get_name</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">missing</span><span class="o">-</span><span class="n">plugin</span>
+</pre></div>
+</div>
+<p>.
+playbinでコーデックが見つからない。
+gst-plugins-xxxをインストーする。</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Gstreamer-1.0のサンプル</a><ul>
+<li><a class="reference internal" href="#simplevideo">SimpleVideo</a></li>
+<li><a class="reference internal" href="#videooverlay">VideoOverlay</a><ul>
+<li><a class="reference internal" href="#gtk-3-0">Gtk+-3.0</a></li>
+<li><a class="reference internal" href="#cairo">Cairo</a></li>
+<li><a class="reference internal" href="#opengl">OpenGL</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#webcam">Webcam</a></li>
+<li><a class="reference internal" href="#error">Error</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="../gtk/index.html"
+                        title="前の章へ">Gtk3のサンプル</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/gst/index.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../gtk/index.html" title="Gtk3のサンプル"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PyGObjectSample 0.1 ドキュメント</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, ousttrue.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1 で生成しました。
+    </div>
+  </body>
+</html>

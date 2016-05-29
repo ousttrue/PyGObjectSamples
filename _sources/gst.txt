@@ -1,0 +1,48 @@
+===========================================
+Gstreamer-1.0のサンプル
+===========================================
+
+SimpleVideo
+===========
+
+::
+
+    $ gst-launch-1.0 videotestsrc ! xvimagesink
+
+上記コマンドラインをpythonにする。
+
+.. todo:: 終了処理
+
+.. code-block:: python
+
+    #!/usr/bin/python3
+    # coding: utf-8
+
+    import gi
+    gi.require_version('Gst', '1.0')
+    from gi.repository import GObject, Gst
+
+
+    def create_pipeline():
+        pipeline = Gst.Pipeline()
+
+        src = Gst.ElementFactory.make('videotestsrc', 'source')
+        pipeline.add(src)
+        assert src 
+
+        sink = Gst.ElementFactory.make('xvimagesink', 'sink')
+        pipeline.add(sink)
+        assert sink
+
+        src.link(sink)
+
+        return pipeline
+
+    if __name__=="__main__":
+        Gst.init(None)
+        GObject.threads_init()
+
+        pipeline=create_pipeline()
+        pipeline.set_state(Gst.State.PLAYING)
+        GObject.MainLoop().run()
+
